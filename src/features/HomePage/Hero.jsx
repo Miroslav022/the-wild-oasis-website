@@ -23,7 +23,7 @@ function Hero() {
   return (
     <Container>
       <StyledHero>
-        <Heading as="h1">Find the Perfect Hotel</Heading>
+        <Heading as="h1">Find the Perfect Cabin</Heading>
         <ButtonsWrapper>
           <Button>Search Now</Button>
           <Button variation="secondary">

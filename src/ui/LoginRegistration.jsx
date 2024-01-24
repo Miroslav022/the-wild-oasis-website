@@ -10,8 +10,10 @@ const StyledContainer = styled.div`
 function LoginRegistration() {
   return (
     <StyledContainer>
-      <Button variation="secondary">Log in</Button>
-      <Button>Sing in</Button>
+      <Button variation="secondary" to="/login">
+        Log in
+      </Button>
+      <Button to="/signup">Sing up</Button>
     </StyledContainer>
   );
 }

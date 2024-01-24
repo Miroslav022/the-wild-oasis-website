@@ -2,23 +2,23 @@ import styled from "styled-components";
 import Logo from "./Logo";
 import NavLinks from "./NavLinks";
 import LoginRegistration from "./LoginRegistration";
-import Container from "./Container";
 
 const NavContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  max-width: 1280px;
+  margin: 0px auto;
+  padding: 20px 30px;
 `;
 
 function Navigation() {
   return (
-    <Container>
-      <NavContainer>
-        <Logo />
-        <NavLinks />
-        <LoginRegistration />
-      </NavContainer>
-    </Container>
+    <NavContainer>
+      <Logo />
+      <NavLinks />
+      <LoginRegistration />
+    </NavContainer>
   );
 }
 

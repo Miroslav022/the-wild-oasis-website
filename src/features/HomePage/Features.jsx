@@ -5,15 +5,8 @@ import HeadingContainer from "../../ui/HeadingContainer";
 import Container from "../../ui/Container";
 
 const StyledFeatures = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 60px;
   background-color: var(--color-brand-100);
   width: 100%;
-  padding-top: 30px;
-  padding-bottom: 30px;
 `;
 const FeaturesCards = styled.div`
   display: grid;
@@ -24,11 +17,13 @@ const FeaturesCards = styled.div`
 function Features() {
   return (
     <StyledFeatures>
-      <HeadingContainer>
-        <Heading as="h3">Features</Heading>
-        <Heading as="h2">Experience the Best Hotel Reservation Service</Heading>
-      </HeadingContainer>
       <Container>
+        <HeadingContainer>
+          <Heading as="h3">Features</Heading>
+          <Heading as="h2">
+            Experience the Best Hotel Reservation Service
+          </Heading>
+        </HeadingContainer>
         <FeaturesCards>
           <FeaturesCard
             feature="Easy Booking"
