@@ -75,6 +75,8 @@ function Button({
   variation = "primary",
   size = "medium",
   to = null,
+  disabled = false,
+  onClick = null,
 }) {
   if (to)
     return (
@@ -84,7 +86,12 @@ function Button({
     );
 
   return (
-    <StyledButton variation={variation} size={size}>
+    <StyledButton
+      variation={variation}
+      size={size}
+      disabled={disabled}
+      onClick={onClick}
+    >
       {children}
     </StyledButton>
   );
@@ -95,6 +102,8 @@ Button.propTypes = {
   variation: PropTypes.string,
   size: PropTypes.string,
   to: PropTypes.string,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 export default Button;
