@@ -7,7 +7,7 @@ import { useSignUp } from "./useSignUp";
 
 function SignUpForm() {
   const { signUp, isLoading } = useSignUp();
-  const { register, handleSubmit, formState } = useForm();
+  const { register, handleSubmit, formState, getValues } = useForm();
   const { errors } = formState;
   console.log(errors);
   function onSubmit({ fullName, email, password }) {
@@ -26,14 +26,26 @@ function SignUpForm() {
         <Input
           type="email"
           id="email"
-          {...register("email", { required: "This field is required" })}
+          {...register("email", {
+            required: "This field is required",
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: "Your email has a wrong format",
+            },
+          })}
         />
       </FormRowVertical>
       <FormRowVertical label="Password" error={errors?.password?.message}>
         <Input
           type="password"
           id="password"
-          {...register("password", { required: "This field is required" })}
+          {...register("password", {
+            required: "This field is required",
+            minLength: {
+              value: 8,
+              message: "Password must contain 8 characters!",
+            },
+          })}
         />
       </FormRowVertical>
       <FormRowVertical
@@ -45,6 +57,8 @@ function SignUpForm() {
           id="Confirmpassword"
           {...register("confirmPassword", {
             required: "This field is required",
+            validate: (value) =>
+              value === getValues().password || "Password need to match",
           })}
         />
       </FormRowVertical>

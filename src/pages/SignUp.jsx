@@ -4,7 +4,7 @@ import Container from "../ui/Container";
 import Heading from "../ui/Heading";
 
 const LoginLayout = styled.div`
-  background-color: var(--color-grey-50);
+  /* background-color: var(--color-grey-50); */
   display: grid;
   grid-template-columns: 48rem;
   justify-content: center;
