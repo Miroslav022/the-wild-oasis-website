@@ -5,7 +5,6 @@ const Ul = styled.ul`
   display: flex;
   align-items: center;
   margin-left: auto;
-  margin-right: 20px;
 `;
 
 function NavLinks() {

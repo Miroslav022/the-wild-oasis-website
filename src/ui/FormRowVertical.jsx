@@ -11,12 +11,17 @@ const StyledRow = styled.div`
 const Label = styled.label`
   font-weight: 500;
 `;
+const StyledError = styled.p`
+  color: var(--color-red-700);
+  font-weight: 500;
+`;
 
-function FormRowVertical({ children, label }) {
+function FormRowVertical({ children, label, error }) {
   return (
     <StyledRow>
       {label && <Label htmlFor={children.props.id}>{label}</Label>}
       {children}
+      {error && <StyledError>{error}</StyledError>}
     </StyledRow>
   );
 }
@@ -24,6 +29,7 @@ function FormRowVertical({ children, label }) {
 FormRowVertical.propTypes = {
   children: PropTypes.node,
   label: PropTypes.string,
+  error: PropTypes.string,
 };
 
 export default FormRowVertical;

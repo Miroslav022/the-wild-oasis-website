@@ -17,7 +17,6 @@ const CardsWrapper = styled.div`
 function TopCabins() {
   const { newCabins, status, error } = useNewCabins();
   if (status === "pending") return <Spinner />;
-  console.log(newCabins, status);
   if (error) return <Error />;
   return (
     <Container>
