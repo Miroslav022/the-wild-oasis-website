@@ -6,8 +6,8 @@ function Cabins() {
   return (
     <div>
       <HeadingContainer>
-        <Heading as="h2">All Cabins</Heading>
-        <Heading as="h1">Explore all cabins</Heading>
+        <Heading as="h3">All Cabins</Heading>
+        <Heading as="h2">Explore all cabins</Heading>
       </HeadingContainer>
       <CabinList />
     </div>

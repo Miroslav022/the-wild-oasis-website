@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Button from "./Button";
 import { useUser } from "../hooks/useUser";
 import { useLogout } from "../features/Login/useLogout";
+import { Link } from "react-router-dom";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -17,16 +18,16 @@ const StyledUserBlock = styled.div`
   padding-left: 10px;
 `;
 
-const ImgBlock = styled.div`
-  width: 40px;
-  height: 40px;
+const ImgBlock = styled(Link)`
   display: flex;
   /* border-radius: 100%; */
   /* object-fit: cover; */
 `;
 const Img = styled.img`
   border-radius: 100%;
-  object-fit: cover;
+  /* object-fit: cover; */
+  width: 40px;
+  height: 40px;
 `;
 const UserName = styled.p`
   font-weight: 600;
@@ -44,8 +45,8 @@ function LoginRegistration() {
     const { fullName, avatar } = data.user_metadata;
     return (
       <StyledUserBlock>
-        <UserName>{fullName}</UserName>
-        <ImgBlock>
+        <UserName>Hi {fullName}</UserName>
+        <ImgBlock to="/edit">
           <Img src={avatar ? avatar : "default-user.jpg"} alt="" />
         </ImgBlock>
         <Button onClick={handleLogout}>Log out</Button>

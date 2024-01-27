@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import Cabins from "./pages/Cabins";
+import EditUser from "./pages/EditUser";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,6 +40,7 @@ function App() {
             />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/cabins" element={<Cabins />} />
+            <Route path="/edit" element={<EditUser />} />
           </Route>
         </Routes>
       </BrowserRouter>
