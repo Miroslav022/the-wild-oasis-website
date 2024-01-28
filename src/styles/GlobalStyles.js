@@ -190,6 +190,12 @@ img {
   filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity));
 }
 
+.flex {
+  display: flex;
+  align-items: center;
+  gap: 10px
+}
+
 /*
 FOR DARK MODE
 

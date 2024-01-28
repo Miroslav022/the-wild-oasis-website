@@ -17,3 +17,15 @@ export async function getNewestCabins() {
   if (error) throw new Error(error.message);
   return cabins;
 }
+
+export async function getSingleCabin(id) {
+  let { data: cabin, error } = await supabase
+    .from("cabins")
+    .select("*")
+    .single()
+    .eq("id", id);
+
+  if (error) throw new Error(error.message);
+
+  return cabin;
+}

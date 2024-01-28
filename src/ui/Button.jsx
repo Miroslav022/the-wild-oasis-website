@@ -34,8 +34,10 @@ const sizes = {
     font-size: 1.4rem;
     padding: 8px 24px;
     font-weight: 600;
+    text-align: center;
   `,
   large: css`
+    text-align: center;
     font-size: 1.6rem;
     padding: 1.2rem 2.4rem;
     font-weight: 500;
@@ -43,6 +45,7 @@ const sizes = {
 };
 
 const StyledButton = styled.button`
+  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,8 +58,10 @@ const StyledButton = styled.button`
 `;
 
 const StyledLink = styled(Link)`
+  text-align: center;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
   border: none;
   border-radius: var(--border-radius-sm);
