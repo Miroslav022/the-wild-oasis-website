@@ -42,6 +42,11 @@ const sizes = {
     padding: 1.2rem 2.4rem;
     font-weight: 500;
   `,
+  rounded: css`
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+  `,
 };
 
 const StyledButton = styled.button`
