@@ -15,12 +15,12 @@ const Number = styled.span`
 function Counter({ increase, decrease, result }) {
   return (
     <CounterWrapper>
-      <Button size="rounded" onClick={increase}>
-        +
-      </Button>
-      <Number>{result}</Number>
       <Button size="rounded" onClick={decrease}>
         -
+      </Button>
+      <Number>{result}</Number>
+      <Button size="rounded" onClick={increase}>
+        +
       </Button>
     </CounterWrapper>
   );

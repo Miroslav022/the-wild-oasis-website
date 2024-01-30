@@ -2,8 +2,8 @@ import { createContext, useContext, useReducer } from "react";
 import PropTypes from "prop-types";
 
 const initialState = {
-  guests: 0,
-  nights: 0,
+  guests: 1,
+  nights: 1,
 };
 
 const BookingContext = createContext();

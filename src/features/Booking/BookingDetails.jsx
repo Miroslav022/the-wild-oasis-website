@@ -10,8 +10,11 @@ import Counter from "../../ui/Counter";
 import Button from "../../ui/Button";
 import Textarea from "../../ui/Textarea";
 import RadioButton from "../../ui/RadioButton";
+
 import { formatCurrency } from "../../utils/helpers";
 import { useBookingContext } from "../../contexts/BookingContext";
+import { useState } from "react";
+// import { FaRegCreditCard } from "react-icons/fa";
 
 const BookingWrapper = styled.div`
   display: grid;
@@ -52,6 +55,8 @@ const Discount = styled.del`
 `;
 
 function BookingDetails() {
+  const [breakfast, setBreakfast] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const { cabin, status } = useCabin();
   const { nights, guests, dispatch } = useBookingContext();
 
@@ -71,9 +76,15 @@ function BookingDetails() {
 
   function handleDecrease(e, type) {
     e.preventDefault();
-    if (type === "guests" && guests === 0) return;
-    if (type === "nights" && nights === 0) return;
+    if (type === "guests" && guests === 1) return;
+    if (type === "nights" && nights === 1) return;
     dispatch({ type: `${type}/Decrease` });
+  }
+
+  function handleCardPaymentForm(e, method) {
+    console.log(e.target.value);
+    if (method === "card" && e.target.value === "on") setIsFormOpen(true);
+    if (method === "cash" && e.target.value === "on") setIsFormOpen(false);
   }
 
   return (
@@ -132,21 +143,61 @@ function BookingDetails() {
             </FormRowVertical>
           </Flex>
           <FormRowVertical label="Include breakfast">
-            <Checkbox>I want pay extra $30.00 for breakfast</Checkbox>
+            <Checkbox
+              value={breakfast}
+              onChange={() => setBreakfast(!breakfast)}
+            >
+              I want pay extra $30.00 for breakfast
+            </Checkbox>
           </FormRowVertical>
           <FormRowVertical label="How i want to pay">
             <Flex>
-              <RadioButton>With card</RadioButton>
-              <RadioButton>Cash</RadioButton>
+              <RadioButton
+                onChange={(e) => handleCardPaymentForm(e, "card")}
+                name="payment"
+              >
+                With card
+              </RadioButton>
+              <RadioButton
+                name="payment"
+                onChange={(e) => handleCardPaymentForm(e, "cash")}
+              >
+                Cash
+              </RadioButton>
             </Flex>
           </FormRowVertical>
-
+          {isFormOpen && (
+            <>
+              <FormRowVertical label="Card Number">
+                <Input
+                  type="text"
+                  // defaultValue={<FaRegCreditCard />}
+                  placeholder="0000 0000 0000 0000"
+                />
+              </FormRowVertical>
+              <Flex>
+                <FormRowVertical label="Expiry date">
+                  <Input type="text" placeholder="MM/YY" />
+                </FormRowVertical>
+                <FormRowVertical label="CVC/CVV">
+                  <Input type="text" placeholder="000" />
+                </FormRowVertical>
+              </Flex>
+            </>
+          )}
           <FormRowVertical label="Something you want to mention">
             <Textarea rows="5"></Textarea>
           </FormRowVertical>
 
           <FormRowVertical label="Total price">
-            <P>{formatCurrency(3432)} to pay in total</P>
+            <P>
+              {formatCurrency(
+                breakfast
+                  ? regularPrice * nights + 30 * guests
+                  : regularPrice * nights
+              )}{" "}
+              to pay in total
+            </P>
           </FormRowVertical>
 
           <FormRowVertical>

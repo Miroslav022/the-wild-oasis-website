@@ -26,7 +26,14 @@ const StyledCheckbox = styled.div`
   }
 `;
 
-function RadioButton({ checked, onChange, disabled = false, id, children }) {
+function RadioButton({
+  checked,
+  onChange,
+  disabled = false,
+  id,
+  children,
+  name,
+}) {
   return (
     <StyledCheckbox>
       <input
@@ -35,6 +42,7 @@ function RadioButton({ checked, onChange, disabled = false, id, children }) {
         checked={checked}
         onChange={onChange}
         disabled={disabled}
+        name={name}
       />
       <label htmlFor={!disabled ? id : ""}>{children}</label>
     </StyledCheckbox>
@@ -46,6 +54,7 @@ RadioButton.propTypes = {
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
   id: PropTypes.number,
+  name: PropTypes.string,
   children: PropTypes.node,
 };
 
