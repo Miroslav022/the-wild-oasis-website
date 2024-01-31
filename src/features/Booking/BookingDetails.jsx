@@ -14,6 +14,10 @@ import RadioButton from "../../ui/RadioButton";
 import { formatCurrency } from "../../utils/helpers";
 import { useBookingContext } from "../../contexts/BookingContext";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useCreateBooking } from "./useCreateBooking";
+import { useQueryClient } from "@tanstack/react-query";
+
 // import { FaRegCreditCard } from "react-icons/fa";
 
 const BookingWrapper = styled.div`
@@ -57,9 +61,14 @@ const Discount = styled.del`
 function BookingDetails() {
   const [breakfast, setBreakfast] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
+
+  const { register, handleSubmit } = useForm();
   const { cabin, status } = useCabin();
   const { nights, guests, dispatch } = useBookingContext();
-
+  const { bookingCabin, isLoading } = useCreateBooking();
+  const queryClient = useQueryClient();
+  const data = queryClient.getQueryData(["user"]);
+  console.log(data);
   if (status === "pending") {
     return <Spinner />;
   }
@@ -86,13 +95,37 @@ function BookingDetails() {
     if (method === "card" && e.target.value === "on") setIsFormOpen(true);
     if (method === "cash" && e.target.value === "on") setIsFormOpen(false);
   }
+  function onSubmit(data) {
+    let extrasPrice = breakfast ? 30 * guests * nights : 0;
+    let totalPrice = breakfast
+      ? regularPrice * nights + 30 * guests * nights
+      : regularPrice * nights;
+
+    let formData = {
+      startDate: data.startDate,
+      endDate: data.endDate,
+      numNights: nights,
+      numGuests: guests,
+      totalPrice,
+      extrasPrice,
+      cabinPrice: totalPrice - extrasPrice,
+      status: "unconfirmed",
+      hasBreakfast: breakfast,
+      isPaid: isFormOpen,
+      cabinId: id,
+      observations: data.observations,
+      guestId: 33,
+    };
+    bookingCabin(formData);
+    // console.log(formData);
+  }
 
   return (
     <BookingWrapper>
       <Img src={image} alt={`cabin-booking-${id}`} />
       <div>
         <Heading as="h3">Booking information</Heading>
-        <Form>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <Flex>
             <div>
               <FormRowVertical label="Name">
@@ -136,10 +169,10 @@ function BookingDetails() {
           </Flex>
           <Flex>
             <FormRowVertical label="Start date">
-              <Input type="date" />
+              <Input type="date" id="startDate" {...register("startDate")} />
             </FormRowVertical>
             <FormRowVertical label="End date">
-              <Input type="date" />
+              <Input type="date" id="endDate" {...register("endDate")} />
             </FormRowVertical>
           </Flex>
           <FormRowVertical label="Include breakfast">
@@ -173,27 +206,51 @@ function BookingDetails() {
                   type="text"
                   // defaultValue={<FaRegCreditCard />}
                   placeholder="0000 0000 0000 0000"
+                  id="cardNumber"
+                  {...register("cardNumber")}
+                />
+              </FormRowVertical>
+
+              <FormRowVertical label="Name on card">
+                <Input
+                  type="text"
+                  id="nameOnCard"
+                  {...register("nameOnCard")}
                 />
               </FormRowVertical>
               <Flex>
                 <FormRowVertical label="Expiry date">
-                  <Input type="text" placeholder="MM/YY" />
+                  <Input
+                    type="text"
+                    placeholder="MM/YY"
+                    id="expDate"
+                    {...register("expDate")}
+                  />
                 </FormRowVertical>
                 <FormRowVertical label="CVC/CVV">
-                  <Input type="text" placeholder="000" />
+                  <Input
+                    type="text"
+                    placeholder="000"
+                    id="cvv"
+                    {...register("cvv")}
+                  />
                 </FormRowVertical>
               </Flex>
             </>
           )}
           <FormRowVertical label="Something you want to mention">
-            <Textarea rows="5"></Textarea>
+            <Textarea
+              rows="5"
+              id="observations"
+              {...register("observations")}
+            ></Textarea>
           </FormRowVertical>
 
           <FormRowVertical label="Total price">
             <P>
               {formatCurrency(
                 breakfast
-                  ? regularPrice * nights + 30 * guests
+                  ? regularPrice * nights + 30 * guests * nights
                   : regularPrice * nights
               )}{" "}
               to pay in total
@@ -201,7 +258,9 @@ function BookingDetails() {
           </FormRowVertical>
 
           <FormRowVertical>
-            <Button size="large">Book Cabin</Button>
+            <Button size="large" disabled={isLoading}>
+              Book Cabin
+            </Button>
           </FormRowVertical>
         </Form>
       </div>
