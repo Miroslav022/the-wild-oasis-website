@@ -62,7 +62,8 @@ function BookingDetails() {
   const [breakfast, setBreakfast] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState, getValues } = useForm();
+  const { errors } = formState;
   const { cabin, status } = useCabin();
   const { nights, guests, dispatch } = useBookingContext();
   const { bookingCabin, isLoading } = useCreateBooking();
@@ -120,6 +121,9 @@ function BookingDetails() {
     // console.log(formData);
   }
 
+  // console.log(errors);
+  const radio = getValues("payment");
+  console.log(radio);
   return (
     <BookingWrapper>
       <Img src={image} alt={`cabin-booking-${id}`} />
@@ -168,11 +172,26 @@ function BookingDetails() {
             </FormRowVertical>
           </Flex>
           <Flex>
-            <FormRowVertical label="Start date">
-              <Input type="date" id="startDate" {...register("startDate")} />
+            <FormRowVertical
+              label="Start date"
+              error={errors?.startDate?.message}
+            >
+              <Input
+                type="date"
+                id="startDate"
+                {...register("startDate", {
+                  required: "This field is required",
+                })}
+              />
             </FormRowVertical>
-            <FormRowVertical label="End date">
-              <Input type="date" id="endDate" {...register("endDate")} />
+            <FormRowVertical label="End date" error={errors?.endDate?.message}>
+              <Input
+                type="date"
+                id="endDate"
+                {...register("endDate", {
+                  required: "This field is required",
+                })}
+              />
             </FormRowVertical>
           </Flex>
           <FormRowVertical label="Include breakfast">
@@ -183,17 +202,28 @@ function BookingDetails() {
               I want pay extra $30.00 for breakfast
             </Checkbox>
           </FormRowVertical>
-          <FormRowVertical label="How i want to pay">
+          <FormRowVertical
+            label="How i want to pay"
+            error={errors?.payment?.message && errors?.payment2?.message}
+          >
             <Flex>
               <RadioButton
                 onChange={(e) => handleCardPaymentForm(e, "card")}
                 name="payment"
+                id="payment"
+                {...register("payment", {
+                  required: "This field is reguired",
+                })}
               >
                 With card
               </RadioButton>
               <RadioButton
                 name="payment"
                 onChange={(e) => handleCardPaymentForm(e, "cash")}
+                id="payment"
+                {...register("payment", {
+                  required: "This field is reguired",
+                })}
               >
                 Cash
               </RadioButton>
@@ -201,38 +231,55 @@ function BookingDetails() {
           </FormRowVertical>
           {isFormOpen && (
             <>
-              <FormRowVertical label="Card Number">
+              <FormRowVertical
+                label="Card Number"
+                error={errors?.cardNumber?.message}
+              >
                 <Input
                   type="text"
                   // defaultValue={<FaRegCreditCard />}
                   placeholder="0000 0000 0000 0000"
                   id="cardNumber"
-                  {...register("cardNumber")}
+                  {...register("cardNumber", {
+                    required: "This field is required!",
+                  })}
                 />
               </FormRowVertical>
 
-              <FormRowVertical label="Name on card">
+              <FormRowVertical
+                label="Name on card"
+                error={errors?.nameOnCard?.message}
+              >
                 <Input
                   type="text"
                   id="nameOnCard"
-                  {...register("nameOnCard")}
+                  {...register("nameOnCard", {
+                    required: "This field is required",
+                  })}
                 />
               </FormRowVertical>
               <Flex>
-                <FormRowVertical label="Expiry date">
+                <FormRowVertical
+                  label="Expiry date"
+                  error={errors?.expDate?.message}
+                >
                   <Input
                     type="text"
                     placeholder="MM/YY"
                     id="expDate"
-                    {...register("expDate")}
+                    {...register("expDate", {
+                      required: "This field is required",
+                    })}
                   />
                 </FormRowVertical>
-                <FormRowVertical label="CVC/CVV">
+                <FormRowVertical label="CVC/CVV" error={errors?.cvv?.message}>
                   <Input
                     type="text"
                     placeholder="000"
                     id="cvv"
-                    {...register("cvv")}
+                    {...register("cvv", {
+                      required: "This field is required",
+                    })}
                   />
                 </FormRowVertical>
               </Flex>
