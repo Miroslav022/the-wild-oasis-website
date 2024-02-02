@@ -62,8 +62,6 @@ export async function signUp({
     },
   });
 
-  console.log(updateUser);
-  console.log(guestData);
   if (error2) throw new Error(error2.message);
 
   return { data, updateUser };

@@ -16,6 +16,8 @@ import { useBookingContext } from "../../contexts/BookingContext";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useCreateBooking } from "./useCreateBooking";
+import { useQueryClient } from "@tanstack/react-query";
+import { formatDistance } from "date-fns";
 // import { useGuest } from "./useGuest";
 
 // import { FaRegCreditCard } from "react-icons/fa";
@@ -65,7 +67,7 @@ function BookingDetails() {
   const { register, handleSubmit, formState, getValues } = useForm();
   const { errors } = formState;
 
-  // const { data, status: isLoadingGuest } = useGuest();
+  const queryClient = useQueryClient();
 
   const { cabin, status } = useCabin();
   const { nights, guests, dispatch } = useBookingContext();
@@ -98,6 +100,12 @@ function BookingDetails() {
     if (method === "cash" && e.target.value === "on") setIsFormOpen(false);
   }
   function onSubmit(data) {
+    const currentUser = queryClient.getQueryData(["user"]);
+    const guestId = currentUser.user_metadata.id;
+
+    const dateDifference = formatDistance(data.endDate, data.startDate);
+    console.log(dateDifference);
+
     let extrasPrice = breakfast ? 30 * guests * nights : 0;
     let totalPrice = breakfast
       ? regularPrice * nights + 30 * guests * nights
@@ -116,13 +124,13 @@ function BookingDetails() {
       isPaid: isFormOpen,
       cabinId: id,
       observations: data.observations,
-      guestId: 33,
+      guestId,
     };
     bookingCabin(formData);
+    // console.log(bookingCabin);
     // console.log(formData);
   }
 
-  // console.log(errors);
   const radio = getValues("payment");
   console.log(radio);
   return (
@@ -191,6 +199,17 @@ function BookingDetails() {
                 id="endDate"
                 {...register("endDate", {
                   required: "This field is required",
+                  validate: (value) => {
+                    const distanceBetweenDates = formatDistance(
+                      value,
+                      getValues().startDate
+                    );
+                    const days = Number(distanceBetweenDates.split(" ")[0]);
+                    return (
+                      days <= nights ||
+                      `You set ${nights} nights to stay, so if you want to stay longer please increase the number of nights.`
+                    );
+                  },
                 })}
               />
             </FormRowVertical>
@@ -212,9 +231,9 @@ function BookingDetails() {
                 onChange={(e) => handleCardPaymentForm(e, "card")}
                 name="payment"
                 id="payment"
-                {...register("payment", {
-                  required: "This field is reguired",
-                })}
+                // {...register("payment", {
+                //   required: "This field is reguired",
+                // })}
               >
                 With card
               </RadioButton>
@@ -222,9 +241,9 @@ function BookingDetails() {
                 name="payment"
                 onChange={(e) => handleCardPaymentForm(e, "cash")}
                 id="payment"
-                {...register("payment", {
-                  required: "This field is reguired",
-                })}
+                // {...register("payment", {
+                //   required: "This field is reguired",
+                // })}
               >
                 Cash
               </RadioButton>
