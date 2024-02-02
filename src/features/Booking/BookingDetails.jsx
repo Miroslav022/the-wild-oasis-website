@@ -16,7 +16,7 @@ import { useBookingContext } from "../../contexts/BookingContext";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useCreateBooking } from "./useCreateBooking";
-import { useQueryClient } from "@tanstack/react-query";
+// import { useGuest } from "./useGuest";
 
 // import { FaRegCreditCard } from "react-icons/fa";
 
@@ -64,12 +64,13 @@ function BookingDetails() {
 
   const { register, handleSubmit, formState, getValues } = useForm();
   const { errors } = formState;
+
+  // const { data, status: isLoadingGuest } = useGuest();
+
   const { cabin, status } = useCabin();
   const { nights, guests, dispatch } = useBookingContext();
   const { bookingCabin, isLoading } = useCreateBooking();
-  const queryClient = useQueryClient();
-  const data = queryClient.getQueryData(["user"]);
-  console.log(data);
+
   if (status === "pending") {
     return <Spinner />;
   }

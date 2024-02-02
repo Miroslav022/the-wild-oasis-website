@@ -8,10 +8,10 @@ import { useSignUp } from "./useSignUp";
 function SignUpForm() {
   const { signUp, isLoading } = useSignUp();
   const { register, handleSubmit, formState, getValues } = useForm();
+
   const { errors } = formState;
-  console.log(errors);
-  function onSubmit({ fullName, email, password }) {
-    signUp({ fullName, email, password });
+  function onSubmit({ fullName, email, password, nationality, nationalID }) {
+    signUp({ fullName, email, password, nationality, nationalID });
   }
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -33,6 +33,20 @@ function SignUpForm() {
               message: "Your email has a wrong format",
             },
           })}
+        />
+      </FormRowVertical>
+      <FormRowVertical label="Nationality" error={errors?.nationality?.message}>
+        <Input
+          type="text"
+          id="nationality"
+          {...register("nationality", { required: "This field is required" })}
+        />
+      </FormRowVertical>
+      <FormRowVertical label="National ID" error={errors?.nationalID?.message}>
+        <Input
+          type="number"
+          id="nationalID"
+          {...register("nationalID", { required: "This field is required" })}
         />
       </FormRowVertical>
       <FormRowVertical label="Password" error={errors?.password?.message}>

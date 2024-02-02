@@ -25,7 +25,14 @@ export async function logout() {
   if (error) return new Error(error.message);
 }
 
-export async function signUp({ fullName, email, password }) {
+export async function signUp({
+  fullName,
+  email,
+  password,
+  nationality,
+  nationalID,
+}) {
+  //Make user
   let { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -38,7 +45,28 @@ export async function signUp({ fullName, email, password }) {
   });
 
   if (error) throw new Error(error.message);
-  return data;
+
+  //Make guest
+  const { data: guestData, error: guestError } = await supabase
+    .from("guests")
+    .insert([{ fullName, email, nationality, nationalID }])
+    .select()
+    .single();
+
+  if (guestError) throw new Error(guestError.message);
+
+  //update user put id to the user_metadata
+  const { data: updateUser, error: error2 } = await supabase.auth.updateUser({
+    data: {
+      id: guestData.id,
+    },
+  });
+
+  console.log(updateUser);
+  console.log(guestData);
+  if (error2) throw new Error(error2.message);
+
+  return { data, updateUser };
 }
 
 export async function editUserData({ fullName, password, avatar }) {
@@ -67,3 +95,16 @@ export async function editUserData({ fullName, password, avatar }) {
   if (error2) throw new Error(error2.message);
   return updateUser;
 }
+
+// export async function findGuest(fullName, email) {
+//   console.log(fullName, email);
+//   let { data: guests, error } = await supabase
+//     .from("guests")
+//     .select("*")
+//     .eq("fullName", "Jonas Schmedtmann")
+//     .single();
+//   console.log(guests);
+//   if (error) throw new Error(error.message);
+
+//   return guests;
+// }

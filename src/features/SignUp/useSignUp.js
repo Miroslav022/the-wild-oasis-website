@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 export function useSignUp() {
   const navigate = useNavigate();
   const { mutate: signUp, isLoading } = useMutation({
-    mutationFn: ({ fullName, email, password }) =>
-      signUpApi({ fullName, email, password }),
+    mutationFn: ({ fullName, email, password, nationality, nationalID }) =>
+      signUpApi({ fullName, email, password, nationality, nationalID }),
     onSuccess: () => {
       toast.success("You are successfully registered, please Log in");
       navigate("/login");
