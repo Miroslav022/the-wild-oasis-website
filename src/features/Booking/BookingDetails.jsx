@@ -38,6 +38,11 @@ const Flex = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 `;
+const FlexRadio = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
 const P = styled.p`
   font-size: 2rem;
   font-weight: 600;
@@ -94,10 +99,11 @@ function BookingDetails() {
     dispatch({ type: `${type}/Decrease` });
   }
 
-  function handleCardPaymentForm(e, method) {
+  function handleCardPaymentForm(e) {
+    console.log("ozbiljnoooooooo");
     console.log(e.target.value);
-    if (method === "card" && e.target.value === "on") setIsFormOpen(true);
-    if (method === "cash" && e.target.value === "on") setIsFormOpen(false);
+    if (e.target.value === "card") setIsFormOpen(true);
+    if (e.target.value === "cash") setIsFormOpen(false);
   }
   function onSubmit(data) {
     const currentUser = queryClient.getQueryData(["user"]);
@@ -131,7 +137,7 @@ function BookingDetails() {
     // console.log(formData);
   }
 
-  const radio = getValues("payment");
+  const radio = getValues();
   console.log(radio);
   return (
     <BookingWrapper>
@@ -224,29 +230,37 @@ function BookingDetails() {
           </FormRowVertical>
           <FormRowVertical
             label="How i want to pay"
-            error={errors?.payment?.message && errors?.payment2?.message}
+            error={errors?.payment?.message}
           >
             <Flex>
-              <RadioButton
-                onChange={(e) => handleCardPaymentForm(e, "card")}
-                name="payment"
-                id="payment"
-                // {...register("payment", {
-                //   required: "This field is reguired",
-                // })}
-              >
-                With card
-              </RadioButton>
-              <RadioButton
-                name="payment"
-                onChange={(e) => handleCardPaymentForm(e, "cash")}
-                id="payment"
-                // {...register("payment", {
-                //   required: "This field is reguired",
-                // })}
-              >
-                Cash
-              </RadioButton>
+              <FlexRadio>
+                <RadioButton
+                  type="radio"
+                  value="card"
+                  onClick={(e) => handleCardPaymentForm(e)}
+                  {...register("payment", {
+                    required: {
+                      value: true,
+                      message: "This field is required",
+                    },
+                  })}
+                />
+                <label htmlFor="cash">With card</label>
+              </FlexRadio>
+              <FlexRadio>
+                <RadioButton
+                  onClick={(e) => handleCardPaymentForm(e)}
+                  type="radio"
+                  value="cash"
+                  {...register("payment", {
+                    required: {
+                      value: true,
+                      message: "This field is required",
+                    },
+                  })}
+                />
+                <label htmlFor="cash">Cash</label>
+              </FlexRadio>
             </Flex>
           </FormRowVertical>
           {isFormOpen && (
