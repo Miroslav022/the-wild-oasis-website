@@ -8,7 +8,7 @@ export function useCabins() {
     ? 1
     : Number(searchParams.get("page"));
   const { data: cabins, isLoading } = useQuery({
-    queryKey: ["cabins"],
+    queryKey: ["cabins", currentPage],
     queryFn: () => getAllCabins(currentPage),
   });
   return { cabins, isLoading };

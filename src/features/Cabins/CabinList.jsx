@@ -3,6 +3,7 @@ import Container from "../../ui/Container";
 import Spinner from "../../ui/Spinner";
 import CabinCard from "../HomePage/CabinCard";
 import { useCabins } from "./useCabins";
+import Pagination from "../../ui/Pagination";
 
 const CardWrapper = styled.div`
   display: grid;
@@ -21,6 +22,7 @@ function CabinList() {
           <CabinCard cabin={cabin} key={cabin.id} />
         ))}
       </CardWrapper>
+      <Pagination />
     </Container>
   );
 }
