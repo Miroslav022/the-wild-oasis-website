@@ -1,12 +1,14 @@
 import styled from "styled-components";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import { useSearchParams } from "react-router-dom";
+import { PAGE_COUNT } from "../utils/helpers";
+import PropTypes from "prop-types";
 
 const StyledPagination = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  justify-content: space-between;
+  justify-content: end;
   padding-top: 20px;
 `;
 
@@ -53,22 +55,23 @@ const PaginationButton = styled.button`
   }
 `;
 
-function Pagination() {
+function Pagination({ count }) {
   const [searchParams, setSearchParams] = useSearchParams();
   let page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
+  const pageCount = Math.ceil(count / PAGE_COUNT);
   function prevPage() {
+    if (page === 1) return;
     page--;
     searchParams.set("page", page);
     setSearchParams(searchParams);
   }
   function nextPage() {
-    page++;
+    page = page === pageCount ? pageCount : page + 1;
     searchParams.set("page", page);
     setSearchParams(searchParams);
   }
   return (
     <StyledPagination>
-      <div>bajooo</div>
       <Buttons>
         <PaginationButton onClick={prevPage}>
           <HiChevronLeft />
@@ -83,4 +86,7 @@ function Pagination() {
   );
 }
 
+Pagination.propTypes = {
+  count: PropTypes.number,
+};
 export default Pagination;

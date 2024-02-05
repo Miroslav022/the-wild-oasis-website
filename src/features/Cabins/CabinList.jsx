@@ -13,7 +13,7 @@ const CardWrapper = styled.div`
 `;
 
 function CabinList() {
-  const { isLoading, cabins } = useCabins();
+  const { isLoading, cabins, count } = useCabins();
   if (isLoading) return <Spinner />;
   return (
     <Container>
@@ -22,7 +22,7 @@ function CabinList() {
           <CabinCard cabin={cabin} key={cabin.id} />
         ))}
       </CardWrapper>
-      <Pagination />
+      <Pagination count={count} />
     </Container>
   );
 }
