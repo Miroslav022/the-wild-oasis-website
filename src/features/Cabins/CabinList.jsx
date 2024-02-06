@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Container from "../../ui/Container";
 import Spinner from "../../ui/Spinner";
 import CabinCard from "../HomePage/CabinCard";
 import { useCabins } from "./useCabins";
@@ -16,14 +15,14 @@ function CabinList() {
   const { isLoading, cabins, count } = useCabins();
   if (isLoading) return <Spinner />;
   return (
-    <Container>
+    <>
       <CardWrapper>
         {cabins.map((cabin) => (
           <CabinCard cabin={cabin} key={cabin.id} />
         ))}
       </CardWrapper>
       <Pagination count={count} />
-    </Container>
+    </>
   );
 }
 

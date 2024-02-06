@@ -1,8 +1,19 @@
 import { PAGE_COUNT } from "../utils/helpers";
 import supabase from "./supabase";
 
-export async function getAllCabins(currentPage) {
+export async function getAllCabins(currentPage, search, filter) {
   let query = supabase.from("cabins").select("*", { count: "exact" });
+
+  //Search
+  if (search) {
+    query = query.like("name", `%${search}%`);
+  }
+
+  if (filter === "discount") {
+    query = query.gt("discount", 0);
+  }
+
+  //Pagination
   if (currentPage) {
     const from = (currentPage - 1) * PAGE_COUNT;
     const to = from + PAGE_COUNT - 1;
