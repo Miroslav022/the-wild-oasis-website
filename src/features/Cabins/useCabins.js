@@ -17,13 +17,19 @@ export function useCabins() {
     ? undefined
     : searchParams.get("search");
 
+  //sort
+  const sortParam = !searchParams.get("sortBy")
+    ? "created_at-desc"
+    : searchParams.get("sortBy");
+  const [field, direction] = sortParam.split("-");
+  const sort = { field, direction };
   //Pagination
   const currentPage = !searchParams.get("page")
     ? 1
     : Number(searchParams.get("page"));
   const { data: { data: cabins, count } = {}, isLoading } = useQuery({
-    queryKey: ["cabins", currentPage, search, filter],
-    queryFn: () => getAllCabins(currentPage, search, filter),
+    queryKey: ["cabins", currentPage, search, filter, sort],
+    queryFn: () => getAllCabins(currentPage, search, filter, sort),
   });
 
   const pageCount = Math.ceil(count / PAGE_COUNT);

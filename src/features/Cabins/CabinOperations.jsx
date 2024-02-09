@@ -1,28 +1,9 @@
 import TableOperations from "../../ui/TableOperations";
-import Input from "../../ui/Input";
-import Button from "../../ui/Button";
 import Filter from "../../ui/Filter";
-import styled from "styled-components";
-import { useForm } from "react-hook-form";
-import { useSearchParams } from "react-router-dom";
-
-const Flex = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-`;
+import SortBy from "../../ui/SortBy";
+import Search from "../../ui/Search";
 
 function CabinOperations() {
-  const { register, handleSubmit } = useForm();
-  const [searchParam, setSearchParam] = useSearchParams();
-
-  function handleSearch(data) {
-    console.log(data);
-    let search = data.search;
-    searchParam.set("search", search);
-    setSearchParam(searchParam);
-  }
-
   const Options = [
     {
       field: "discount",
@@ -33,19 +14,30 @@ function CabinOperations() {
       value: "All",
     },
   ];
+  const sortByOptions = [
+    {
+      field: "maxCapacity-desc",
+      value: "Capacity descending",
+    },
+    {
+      field: "maxCapacity-asc",
+      value: "Capacity asc",
+    },
+    {
+      field: "regularPrice-desc",
+      value: "Price descending",
+    },
+    {
+      field: "regularPrice-asc",
+      value: "Price ascending",
+    },
+  ];
+
   return (
     <TableOperations>
       <Filter options={Options} filterField="discount" />
-      <form onSubmit={handleSubmit(handleSearch)}>
-        <Flex>
-          <Input
-            type="search"
-            placeholder="Search..."
-            {...register("search")}
-          />
-          <Button>Search</Button>
-        </Flex>
-      </form>
+      <SortBy options={sortByOptions} />
+      <Search />
     </TableOperations>
   );
 }

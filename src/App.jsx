@@ -13,6 +13,7 @@ import Cabins from "./pages/Cabins";
 import EditUser from "./pages/EditUser";
 import Cabin from "./pages/Cabin";
 import Booking from "./pages/Booking";
+import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -45,6 +46,7 @@ function App() {
             <Route path="/cabin/:id" element={<Cabin />} />
             <Route path="/booking/:id" element={<Booking />} />
             <Route path="/edit" element={<EditUser />} />
+            <Route path="/contact" element={<Contact />} />
           </Route>
         </Routes>
       </BrowserRouter>
