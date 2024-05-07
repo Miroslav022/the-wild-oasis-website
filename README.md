@@ -4,7 +4,7 @@
             browsing available cabins, making reservations, and communicating with the Wild Oasis staff.</p>
     </header>
 
-    <section id="features">
+
         <h2>Features</h2>
         <ul>
             <li>User Registration: Easily create an account to unlock access to cabin reservations and personalized
@@ -20,9 +20,8 @@
             <li>Employee Notification: Messages sent by users are seamlessly integrated into the Wild Oasis internal
                 application, ensuring efficient communication between staff and guests.</li>
         </ul>
-    </section>
 
-    <section id="tech-used">
+
         <h2>Technologies Used</h2>
         <ul>
             <li>React: Powering the frontend with a dynamic and intuitive user interface.</li>
@@ -32,9 +31,7 @@
             <li>Context API: Managing local states within the application for enhanced performance and scalability.</li>
             <li>Styled Components: Styling the website with elegance and maintainability using styled components.</li>
         </ul>
-    </section>
 
-    <section id="usage">
         <h2>Usage</h2>
         <ol>
             <li>Sign Up: Register for an account to access the full range of features.</li>
@@ -42,10 +39,7 @@
             <li>Make a Reservation: Secure your booking by selecting your preferred cabin and dates.</li>
             <li>Send Messages: Communicate with Wild Oasis staff for any inquiries or special requests.</li>
         </ol>
-    </section>
 
-    <section id="feedback">
         <h2>Feedback</h2>
         <p>We value your feedback! If you have any suggestions for improving the website or encounter any issues, please
             don't hesitate to reach out.</p>
-    </section>
