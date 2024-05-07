@@ -1,8 +1,8 @@
-<header>
+
         <h1>Welcome to the Wild Oasis Cabin Reservation Website</h1>
         <p>Designed for users seeking to book a relaxing getaway, this platform provides a seamless experience for
             browsing available cabins, making reservations, and communicating with the Wild Oasis staff.</p>
-    </header>
+
 
 
         <h2>Features</h2>
